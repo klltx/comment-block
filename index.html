@@ -10,14 +10,27 @@
 </head>
 
 <body>
-  <form class="comment-form" id="commentForm">
-    <input class="comment-form__name" type="text" name="name" id="commentFormName" placeholder="Имя">
-    <input class="comment-form__text" type="text" name="text" id="commentFormText" placeholder="Текст комментария">
-    <input class="comment-form__date" type="date" name="date" id="commentFormDate">
-    <input class="comment-form__submit" type="submit" value="Отправить">
-  </form>
-  <span>Комментарии</span>
-  <div class="comments" id="comments"></div>
+  <div class="comment-block">
+    <span class="comment-block__title">Комментарии</span>
+    <form class="comment-form" id="commentForm">
+      <div class="user-info row">
+        <div class="column">
+          <input class="comment-form__name" type="text" name="name" id="commentFormName" placeholder="Имя">
+          <span class="comment-form__error hidden" id="commentFormNameError">Введите текст</span>
+        </div>
+        <div class="column">
+          <input class="comment-form__date" type="date" name="date" id="commentFormDate">
+          <span class="comment-form__error hidden" id="commentFormDateError">Некорректная дата</span>
+        </div>
+      </div>
+      <div class="column">
+        <input class="comment-form__text" type="text" name="text" id="commentFormText" placeholder="Текст комментария">
+        <span class="comment-form__error hidden" id="commentFormTextError">Введите текст</span>
+      </div>
+      <input class="comment-form__submit" type="submit" value="Отправить">
+    </form>
+    <div class="comments column" id="comments"></div>
+  </div>
 </body>
 <script src="./script.js"></script>
 

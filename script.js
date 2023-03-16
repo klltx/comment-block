@@ -1,15 +1,25 @@
 const commentForm = document.querySelector('#commentForm');
 const userName = document.querySelector('#commentFormName');
+const userNameError = document.querySelector('#commentFormNameError');
 const text = document.querySelector('#commentFormText');
+const textError = document.querySelector('#commentFormTextError');
 const date = document.querySelector('#commentFormDate');
+const dateError = document.querySelector('#commentFormDateError');
 const comments = document.querySelector('#comments');
 
 userName.addEventListener('input', () => {
   userName.classList.remove('invalid');
+  userNameError.classList.add('hidden');
 })
 
 text.addEventListener('input', () => {
   text.classList.remove('invalid');
+  textError.classList.add('hidden');
+})
+
+date.addEventListener('change', () => {
+  date.classList.remove('invalid');
+  dateError.classList.add('hidden');
 })
 
 const checkValid = () => {
@@ -17,11 +27,19 @@ const checkValid = () => {
 
   if(!userName.value) {
     userName.classList.add('invalid');
+    userNameError.classList.remove('hidden');
     isValid = false;
   }
   
   if(!text.value) {
     text.classList.add('invalid');
+    textError.classList.remove('hidden');
+    isValid = false;
+  }
+
+  if(date && new Date(date.value) > new Date()) {
+    date.classList.add('invalid');
+    dateError.classList.remove('hidden');
     isValid = false;
   }
 
@@ -45,11 +63,17 @@ const convertDate = (date) => {
 const addComment = (wrapper, commentFormData) => {
   wrapper.insertAdjacentHTML('afterbegin', `
     <div class="comment comment-${commentFormData.id}">
-      <span>${commentFormData.userName}</span>
-      <span>${commentFormData.text}</span>
-      <span>${commentFormData.date}</span>
-      <button class="remove" id="removeButton">Удалить</button>
-      <button class="like" id="likeButton">Понравилось</button>
+      <div class="row">
+        <span class="comment-name">${commentFormData.userName}</span>
+        <span class="comment-date">${commentFormData.date}</span>
+        <button class="comment-button remove" id="removeButton">
+          <img src="./assets/icons/trash.svg" alt="Удалить комментарий">
+        </button>
+        <button class="comment-button like" id="likeButton">
+          <img src="./assets/icons/like.svg" alt="Отметить как понравившийся">
+        </button>
+      </div>
+      <span class="comment-text">${commentFormData.text}</span>
     </div>`);
 
   const comment = document.querySelector(`.comment-${commentFormData.id}`);
