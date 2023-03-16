@@ -33,6 +33,7 @@ body {
 
 .row {
   display: flex;
+  align-items: center;
   gap: 6px;
 }
 
@@ -47,6 +48,15 @@ input {
   border: none;
   border-bottom: 1px solid #a7a7a7;
   padding: 4px;
+}
+
+.comment-form__submit {
+  padding: 10px;
+  border: none;
+  border-radius: 7px;
+  background-color: #0087d4;
+  color: #eeeeee;
+  cursor: pointer;
 }
 
 .comment-form__date {
@@ -92,5 +102,19 @@ input {
 }
 
 .comments {
-  gap: 22px;
+  gap: 28px;
+}
+
+.button-disabled {
+  background-color: #494949;
+  cursor: not-allowed;
+}
+
+.comment-name {
+  font-weight: 600;
+  text-align: center;
+}
+
+.comment-date {
+  font-size: 12px;
 }

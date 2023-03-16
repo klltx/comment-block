@@ -5,43 +5,47 @@ const text = document.querySelector('#commentFormText');
 const textError = document.querySelector('#commentFormTextError');
 const date = document.querySelector('#commentFormDate');
 const dateError = document.querySelector('#commentFormDateError');
+const submitButton = document.querySelector('.comment-form__submit');
 const comments = document.querySelector('#comments');
 
+const setValid = (elem, elemError) => {
+  elem.classList.remove('invalid');
+  elemError.classList.add('hidden');
+  
+  if(!document.querySelectorAll('.invalid').length) {
+    submitButton.disabled = false;
+    submitButton.classList.remove('button-disabled');
+  }
+}
+
 userName.addEventListener('input', () => {
-  userName.classList.remove('invalid');
-  userNameError.classList.add('hidden');
+  setValid(userName, userNameError);
 })
 
 text.addEventListener('input', () => {
-  text.classList.remove('invalid');
-  textError.classList.add('hidden');
+  setValid(text, textError);
 })
 
 date.addEventListener('change', () => {
-  date.classList.remove('invalid');
-  dateError.classList.add('hidden');
+  setValid(date, dateError);
 })
 
 const checkValid = () => {
   let isValid = true;
-
-  if(!userName.value) {
-    userName.classList.add('invalid');
-    userNameError.classList.remove('hidden');
-    isValid = false;
-  }
   
-  if(!text.value) {
-    text.classList.add('invalid');
-    textError.classList.remove('hidden');
-    isValid = false;
+  const check = (condition, elem, elemError) => {
+    if(condition) {
+      elem.classList.add('invalid');
+      elemError.classList.remove('hidden');
+      submitButton.disabled = true;
+      submitButton.classList.add('button-disabled');
+      isValid = false;
+    }
   }
 
-  if(date && new Date(date.value) > new Date()) {
-    date.classList.add('invalid');
-    dateError.classList.remove('hidden');
-    isValid = false;
-  }
+  check(!userName.value, userName, userNameError);
+  check(!text.value, text, textError);
+  check(date && new Date(date.value) > new Date(), date, dateError);
 
   return isValid;
 }
@@ -65,15 +69,17 @@ const addComment = (wrapper, commentFormData) => {
     <div class="comment comment-${commentFormData.id}">
       <div class="row">
         <span class="comment-name">${commentFormData.userName}</span>
-        <span class="comment-date">${commentFormData.date}</span>
-        <button class="comment-button remove" id="removeButton">
-          <img src="./assets/icons/trash.svg" alt="Удалить комментарий">
-        </button>
         <button class="comment-button like" id="likeButton">
           <img src="./assets/icons/like.svg" alt="Отметить как понравившийся">
         </button>
+        <button class="comment-button remove" id="removeButton">
+          <img src="./assets/icons/trash.svg" alt="Удалить комментарий">
+        </button>
       </div>
-      <span class="comment-text">${commentFormData.text}</span>
+      <div class="column">
+        <span class="comment-text">${commentFormData.text}</span>
+        <span class="comment-date">${commentFormData.date}</span>
+      </div>
     </div>`);
 
   const comment = document.querySelector(`.comment-${commentFormData.id}`);
